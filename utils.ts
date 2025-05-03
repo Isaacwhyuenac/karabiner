@@ -1,4 +1,4 @@
-import { To, KeyCode, Manipulator, KarabinerRules } from "./types";
+import { To, KeyCode, Manipulator, KarabinerRules, ModifiersKeys, SelectInputSource } from "./types";
 
 /**
  * Custom way to describe a command in a layer
@@ -211,3 +211,78 @@ export function rectangle(name: string): LayerCommand {
 export function app(name: string): LayerCommand {
   return open(`-a '${name}.app'`);
 }
+
+export const switchLanguage = ({
+  languages,
+  // fromLanguage,
+  // toLanguage,
+  fromToKeyCode,
+  modifiers,
+  masterModifiers,
+}: {
+  languages: SelectInputSource[];
+  // fromLanguage: string;
+  // toLanguage: string;
+  fromToKeyCode: KeyCode;
+  modifiers: ModifiersKeys[];
+  masterModifiers: ModifiersKeys[];
+}): Manipulator[] => {
+  const languageSwitch: Manipulator[] = [];
+
+  const language = languages[0];
+
+  languageSwitch.push({
+    type: "basic",
+    from: {
+      key_code: fromToKeyCode,
+      modifiers: {
+        mandatory: [...modifiers, ...masterModifiers],
+      },
+    },
+    to: [
+      {
+        key_code: fromToKeyCode,
+        modifiers: [...modifiers, ...masterModifiers],
+      },
+    ],
+    to_if_alone: [
+      {
+        select_input_source: language,
+      },
+    ],
+  });
+
+  for (let i = 1; i < languages.length; i++) {
+    const fromLanguage = languages[i - 1];
+    const toLanguage = languages[i];
+
+    languageSwitch.push({
+      conditions: [
+        {
+          input_sources: [fromLanguage,],
+          type: "input_source_if",
+        },
+      ],
+      from: {
+        key_code: fromToKeyCode,
+        modifiers: {
+          mandatory: modifiers,
+        },
+      },
+      to: [
+        {
+          key_code: fromToKeyCode,
+          modifiers,
+        },
+      ],
+      to_if_alone: [
+        {
+          select_input_source: toLanguage,
+        },
+      ],
+      type: "basic",
+    });
+  }
+
+  return languageSwitch;
+};

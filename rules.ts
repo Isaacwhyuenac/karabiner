@@ -1,6 +1,6 @@
 import fs from "fs";
 import { KarabinerRules } from "./types";
-import { createHyperSubLayers, app, open, rectangle, shell } from "./utils";
+import { createHyperSubLayers, app, open, switchLanguage } from "./utils";
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself
@@ -8,7 +8,6 @@ const rules: KarabinerRules[] = [
     description: "Hyper Key (⌃⌥⇧⌘)",
     manipulators: [
       {
-        description: "Caps Lock -> Hyper Key",
         from: {
           key_code: "caps_lock",
           modifiers: {
@@ -16,6 +15,10 @@ const rules: KarabinerRules[] = [
           },
         },
         to: [
+          {
+            key_code: "left_shift",
+            modifiers: ["left_command", "left_control", "left_option"],
+          },
           {
             set_variable: {
               name: "hyper",
@@ -70,31 +73,37 @@ const rules: KarabinerRules[] = [
       h: open("https://hashnode.com/draft"),
     },
     // o = "Open" applications
+    // For example, to open
     o: {
-      1: app("1Password"),
-      g: app("Google Chrome"),
-      c: app("Notion Calendar"),
-      v: app("Zed"),
+      // 1: app("1Password"),
+      c: app("Google Chrome"),
+      // c: app("Notion Calendar"),
+      // v: app("Zed"),
       d: app("Discord"),
       s: app("Slack"),
-      e: app("Superhuman"),
+      // e: app("Superhuman"),
       n: app("Notion"),
-      t: app("Terminal"),
+      // t: app("Terminal"),
       // Open todo list managed via *H*ypersonic
       h: open(
         "notion://www.notion.so/stellatehq/7b33b924746647499d906c55f89d5026"
       ),
-      z: app("zoom.us"),
+      // z: app("zoom.us"),
       // "M"arkdown (Reflect.app)
-      m: app("Reflect"),
-      r: app("Reflect"),
+      // m: app("Reflect"),
+      // r: app("Reflect"),
+      y: app("YouTube"),
       f: app("Finder"),
       // "i"Message
-      i: app("Texts"),
-      p: app("Spotify"),
-      a: app("iA Presenter"),
+      i: app("IntelliJ IDEA"),
+      p: app("PyCharm"),
+      g: app("GoLand"),
+      r: app("RustRover"),
+
+      v: app("Visual Studio Code"),
+      // a: app("iA Presenter"),
       // "W"hatsApp has been replaced by Texts
-      w: open("Texts"),
+      // w: open("Texts"),
       l: open(
         "raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink"
       ),
@@ -116,70 +125,70 @@ const rules: KarabinerRules[] = [
     // },
 
     // w = "Window" via rectangle.app
-    w: {
-      semicolon: {
-        description: "Window: Hide",
-        to: [
-          {
-            key_code: "h",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      y: rectangle("previous-display"),
-      o: rectangle("next-display"),
-      k: rectangle("top-half"),
-      j: rectangle("bottom-half"),
-      h: rectangle("left-half"),
-      l: rectangle("right-half"),
-      f: rectangle("maximize"),
-      u: {
-        description: "Window: Previous Tab",
-        to: [
-          {
-            key_code: "tab",
-            modifiers: ["right_control", "right_shift"],
-          },
-        ],
-      },
-      i: {
-        description: "Window: Next Tab",
-        to: [
-          {
-            key_code: "tab",
-            modifiers: ["right_control"],
-          },
-        ],
-      },
-      n: {
-        description: "Window: Next Window",
-        to: [
-          {
-            key_code: "grave_accent_and_tilde",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      b: {
-        description: "Window: Back",
-        to: [
-          {
-            key_code: "open_bracket",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      // Note: No literal connection. Both f and n are already taken.
-      m: {
-        description: "Window: Forward",
-        to: [
-          {
-            key_code: "close_bracket",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-    },
+    // w: {
+    //   semicolon: {
+    //     description: "Window: Hide",
+    //     to: [
+    //       {
+    //         key_code: "h",
+    //         modifiers: ["right_command"],
+    //       },
+    //     ],
+    //   },
+    //   y: rectangle("previous-display"),
+    //   o: rectangle("next-display"),
+    //   k: rectangle("top-half"),
+    //   j: rectangle("bottom-half"),
+    //   h: rectangle("left-half"),
+    //   l: rectangle("right-half"),
+    //   f: rectangle("maximize"),
+    //   u: {
+    //     description: "Window: Previous Tab",
+    //     to: [
+    //       {
+    //         key_code: "tab",
+    //         modifiers: ["right_control", "right_shift"],
+    //       },
+    //     ],
+    //   },
+    //   i: {
+    //     description: "Window: Next Tab",
+    //     to: [
+    //       {
+    //         key_code: "tab",
+    //         modifiers: ["right_control"],
+    //       },
+    //     ],
+    //   },
+    //   n: {
+    //     description: "Window: Next Window",
+    //     to: [
+    //       {
+    //         key_code: "grave_accent_and_tilde",
+    //         modifiers: ["right_command"],
+    //       },
+    //     ],
+    //   },
+    //   b: {
+    //     description: "Window: Back",
+    //     to: [
+    //       {
+    //         key_code: "open_bracket",
+    //         modifiers: ["right_command"],
+    //       },
+    //     ],
+    //   },
+    //   // Note: No literal connection. Both f and n are already taken.
+    //   m: {
+    //     description: "Window: Forward",
+    //     to: [
+    //       {
+    //         key_code: "close_bracket",
+    //         modifiers: ["right_command"],
+    //       },
+    //     ],
+    //   },
+    // },
 
     // s = "System"
     s: {
@@ -303,51 +312,87 @@ const rules: KarabinerRules[] = [
     },
 
     // r = "Raycast"
-    r: {
-      c: open("raycast://extensions/thomas/color-picker/pick-color"),
-      n: open("raycast://script-commands/dismiss-notifications"),
-      l: open(
-        "raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink"
-      ),
-      e: open(
-        "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
-      ),
-      p: open("raycast://extensions/raycast/raycast/confetti"),
-      a: open("raycast://extensions/raycast/raycast-ai/ai-chat"),
-      s: open("raycast://extensions/peduarte/silent-mention/index"),
-      h: open(
-        "raycast://extensions/raycast/clipboard-history/clipboard-history"
-      ),
-      1: open(
-        "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-1"
-      ),
-      2: open(
-        "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-2"
-      ),
-    },
+    // r: {
+    //   c: open("raycast://extensions/thomas/color-picker/pick-color"),
+    //   n: open("raycast://script-commands/dismiss-notifications"),
+    //   l: open(
+    //     "raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink"
+    //   ),
+    //   e: open(
+    //     "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
+    //   ),
+    //   p: open("raycast://extensions/raycast/raycast/confetti"),
+    //   a: open("raycast://extensions/raycast/raycast-ai/ai-chat"),
+    //   s: open("raycast://extensions/peduarte/silent-mention/index"),
+    //   h: open(
+    //     "raycast://extensions/raycast/clipboard-history/clipboard-history"
+    //   ),
+    //   1: open(
+    //     "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-1"
+    //   ),
+    //   2: open(
+    //     "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-2"
+    //   ),
+    // },
   }),
+  // {
+  //   description: "Change Backspace to Spacebar when Minecraft is focused",
+  //   manipulators: [
+  //     {
+  //       type: "basic",
+  //       from: {
+  //         key_code: "delete_or_backspace",
+  //       },
+  //       to: [
+  //         {
+  //           key_code: "spacebar",
+  //         },
+  //       ],
+  //       conditions: [
+  //         {
+  //           type: "frontmost_application_if",
+  //           file_paths: [
+  //             "^/Users/mxstbr/Library/Application Support/minecraft/runtime/java-runtime-gamma/mac-os-arm64/java-runtime-gamma/jre.bundle/Contents/Home/bin/java$",
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  //   "input_source": {
+  //     "input_mode_id": "com.apple.inputmethod.TCIM.Cangjie",
+  //     "input_source_id": "com.apple.inputmethod.TCIM.Cangjie",
+  //     "language": "zh-Hant"
+  // },
   {
-    description: "Change Backspace to Spacebar when Minecraft is focused",
+    description: "Change Languages",
     manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "delete_or_backspace",
+      ...switchLanguage({
+        languages: [
+          {
+            language: "en",
+            input_source_id: "com.apple.keylayout.ABC",
+          },
+          {
+            language: "zh-Hant",
+            input_source_id: "com.apple.inputmethod.TCIM.Cangjie",
+            input_mode_id: "com.apple.inputmethod.TCIM.Cangjie",
+          },
+          {
+            "input_mode_id": "com.apple.inputmethod.Japanese",
+            "input_source_id": "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese",
+            "language": "ja"
+          },
+          {
+            "input_mode_id": "com.apple.inputmethod.Korean.2SetKorean",
+            "input_source_id": "com.apple.inputmethod.Korean.2SetKorean",
+            "language": "ko"
         },
-        to: [
-          {
-            key_code: "spacebar",
-          },
         ],
-        conditions: [
-          {
-            type: "frontmost_application_if",
-            file_paths: [
-              "^/Users/mxstbr/Library/Application Support/minecraft/runtime/java-runtime-gamma/mac-os-arm64/java-runtime-gamma/jre.bundle/Contents/Home/bin/java$",
-            ],
-          },
-        ],
-      },
+        fromToKeyCode: "left_shift",
+        modifiers: ["left_control"],
+        masterModifiers: ["right_command"],
+      }),
     ],
   },
 ];

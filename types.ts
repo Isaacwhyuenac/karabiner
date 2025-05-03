@@ -93,7 +93,7 @@ export interface SimultaneousOptions {
   detect_key_down_uninterruptedly?: boolean;
 }
 
-type ModifiersKeys =
+export type ModifiersKeys =
   | "caps_lock"
   | "left_command"
   | "left_control"
@@ -126,6 +126,12 @@ export interface Modifiers {
   mandatory?: ModifiersKeys[];
 }
 
+export interface SelectInputSource {
+  language?: string;
+  input_source_id?: string;
+  input_mode_id?: string;
+}
+
 export interface To {
   key_code?: KeyCode;
   modifiers?: ModifiersKeys[];
@@ -134,6 +140,7 @@ export interface To {
     name: string;
     value: boolean | number | string;
   };
+  select_input_source?: SelectInputSource;
   mouse_key?: MouseKey;
   pointing_button?: string;
   /**
