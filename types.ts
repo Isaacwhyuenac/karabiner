@@ -15,6 +15,7 @@ export interface Manipulator {
 }
 
 export interface Parameters {
+  "basic.to_delayed_action_delay_milliseconds"?: number;
   "basic.simultaneous_threshold_milliseconds"?: number;
 }
 
@@ -116,6 +117,7 @@ export type ModifiersKeys =
 
 export interface From {
   key_code?: KeyCode;
+  pointing_button?: string;
   simultaneous?: SimultaneousFrom[];
   simultaneous_options?: SimultaneousOptions;
   modifiers?: Modifiers;

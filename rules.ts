@@ -17,7 +17,7 @@ const rules: KarabinerRules[] = [
         to: [
           {
             key_code: "left_shift",
-            modifiers: ["left_command", "left_control", "left_option"],
+            modifiers: ["left_command", "left_control", "left_option", "fn"],
           },
           {
             set_variable: {
@@ -41,6 +41,7 @@ const rules: KarabinerRules[] = [
         ],
         type: "basic",
       },
+
       //      {
       //        type: "basic",
       //        description: "Disable CMD + Tab to force Hyper Key usage",
@@ -56,6 +57,101 @@ const rules: KarabinerRules[] = [
       //          },
       //        ],
       //      },
+    ],
+  },
+
+  {
+    description: "Send Ctrl + <Shift> + - in VS Code",
+    manipulators: [
+      {
+        conditions: [
+          {
+            bundle_identifiers: ["com.microsoft.VSCode"],
+            type: "frontmost_application_if",
+          },
+        ],
+        from: {
+          pointing_button: "button4",
+          modifiers: {
+            optional: ["any"],
+          },
+        },
+        to: [
+          {
+            key_code: "hyphen",
+            modifiers: ["left_control"],
+          },
+        ],
+        type: "basic",
+      },
+      {
+        conditions: [
+          {
+            bundle_identifiers: ["com.microsoft.VSCode"],
+            type: "frontmost_application_if",
+          },
+        ],
+        from: {
+          pointing_button: "button5",
+          modifiers: {
+            optional: ["any"],
+          },
+        },
+        to: [
+          {
+            key_code: "hyphen",
+            modifiers: ["left_control", "left_shift"],
+          },
+        ],
+        type: "basic",
+      },
+    ],
+  },
+  {
+    description: "Send Cmd + Left/Right arrow in non VS Code apps",
+    manipulators: [
+      {
+        conditions: [
+          {
+            bundle_identifiers: ["com.microsoft.VSCode"],
+            type: "frontmost_application_unless",
+          },
+        ],
+        from: {
+          pointing_button: "button4",
+          modifiers: {
+            optional: ["any"],
+          },
+        },
+        to: [
+          {
+            key_code: "left_arrow",
+            modifiers: ["left_command"],
+          },
+        ],
+        type: "basic",
+      },
+      {
+        conditions: [
+          {
+            bundle_identifiers: ["com.microsoft.VSCode"],
+            type: "frontmost_application_unless",
+          },
+        ],
+        from: {
+          pointing_button: "button5",
+          modifiers: {
+            optional: ["any"],
+          },
+        },
+        to: [
+          {
+            key_code: "right_arrow",
+            modifiers: ["left_command"],
+          },
+        ],
+        type: "basic",
+      },
     ],
   },
   ...createHyperSubLayers({
@@ -379,15 +475,33 @@ const rules: KarabinerRules[] = [
             input_mode_id: "com.apple.inputmethod.TCIM.Cangjie",
           },
           {
-            "input_mode_id": "com.apple.inputmethod.Japanese",
-            "input_source_id": "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese",
-            "language": "ja"
+            input_mode_id: "com.apple.inputmethod.SCIM.ITABC",
+            input_source_id: "com.apple.inputmethod.SCIM.ITABC",
+            language: "zh-Hans",
           },
           {
-            "input_mode_id": "com.apple.inputmethod.Korean.2SetKorean",
-            "input_source_id": "com.apple.inputmethod.Korean.2SetKorean",
-            "language": "ko"
-        },
+            input_mode_id: "com.apple.inputmethod.Japanese",
+            input_source_id:
+              "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese",
+            language: "ja",
+          },
+          {
+            input_mode_id: "com.apple.inputmethod.Korean.2SetKorean",
+            input_source_id: "com.apple.inputmethod.Korean.2SetKorean",
+            language: "ko",
+          },
+          {
+            input_source_id: "com.apple.keylayout.ABC-AZERTY",
+            language: "fr",
+          },
+          {
+            input_source_id: "com.apple.keylayout.Spanish-ISO",
+            language: "es",
+          },
+          {
+            input_source_id: "com.apple.keylayout.Russian",
+            language: "ru",
+          },
         ],
         fromToKeyCode: "left_shift",
         modifiers: ["left_control"],

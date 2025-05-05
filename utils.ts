@@ -227,62 +227,92 @@ export const switchLanguage = ({
   modifiers: ModifiersKeys[];
   masterModifiers: ModifiersKeys[];
 }): Manipulator[] => {
-  const languageSwitch: Manipulator[] = [];
 
-  const language = languages[0];
+  const number = 1
 
-  languageSwitch.push({
+  const languageSwitch: Manipulator[] = languages.map((language, index) => ({
     type: "basic",
+    // "parameters": { "basic.to_delayed_action_delay_milliseconds": 1000 },
+    // "to_delayed_action": { "to_if_invoked": [{ "key_code": "caps_lock" }] },
     from: {
-      key_code: fromToKeyCode,
+      key_code: `f${number + index}` as KeyCode,
       modifiers: {
-        mandatory: [...modifiers, ...masterModifiers],
+        mandatory: ["fn"]
+        // optional: ["any"],
       },
     },
-    to: [
-      {
-        key_code: fromToKeyCode,
-        modifiers: [...modifiers, ...masterModifiers],
-      },
-    ],
+
+    // to: [
+    //   {
+    //     key_code: `f${number + index}` as KeyCode,
+    //     // modifiers: ["fn"]
+    //   }
+    // ],
     to_if_alone: [
       {
-        select_input_source: language,
+        shell_command: `/opt/homebrew/bin/macism ${language.input_source_id}`,
+        // select_input_source: language,
+        // "shell_command": "osascript -e 'tell application \"System Events\" to command key down'"
       },
     ],
-  });
+  }))
 
-  for (let i = 1; i < languages.length; i++) {
-    const fromLanguage = languages[i - 1];
-    const toLanguage = languages[i];
+  // const languageSwitch: Manipulator[] = [];
 
-    languageSwitch.push({
-      conditions: [
-        {
-          input_sources: [fromLanguage,],
-          type: "input_source_if",
-        },
-      ],
-      from: {
-        key_code: fromToKeyCode,
-        modifiers: {
-          mandatory: modifiers,
-        },
-      },
-      to: [
-        {
-          key_code: fromToKeyCode,
-          modifiers,
-        },
-      ],
-      to_if_alone: [
-        {
-          select_input_source: toLanguage,
-        },
-      ],
-      type: "basic",
-    });
-  }
+  // const language = languages[0];
+
+  // languageSwitch.push({
+  //   type: "basic",
+  //   from: {
+  //     key_code: fromToKeyCode,
+  //     modifiers: {
+  //       mandatory: [...modifiers, ...masterModifiers],
+  //     },
+  //   },
+  //   to: [
+  //     {
+  //       key_code: fromToKeyCode,
+  //       modifiers: [...modifiers, ...masterModifiers],
+  //     },
+  //   ],
+  //   to_if_alone: [
+  //     {
+  //       select_input_source: language,
+  //     },
+  //   ],
+  // });
+
+  // for (let i = 1; i < languages.length; i++) {
+  //   const fromLanguage = languages[i - 1];
+  //   const toLanguage = languages[i];
+
+  //   languageSwitch.push({
+  //     conditions: [
+  //       {
+  //         input_sources: [fromLanguage,],
+  //         type: "input_source_if",
+  //       },
+  //     ],
+  //     from: {
+  //       key_code: fromToKeyCode,
+  //       modifiers: {
+  //         mandatory: modifiers,
+  //       },
+  //     },
+  //     to: [
+  //       {
+  //         key_code: fromToKeyCode,
+  //         modifiers,
+  //       },
+  //     ],
+  //     to_if_alone: [
+  //       {
+  //         select_input_source: toLanguage,
+  //       },
+  //     ],
+  //     type: "basic",
+  //   });
+  // }
 
   return languageSwitch;
 };
